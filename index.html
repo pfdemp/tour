@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hot spots</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+    #panorama {
+        width: 830px;
+        height: 700px;
+    }
+    .custom-hotspot {
+   border-radius: 35px;
+  height: 35px;
+  width: 35px;
+  border: 8px solid #ffc600;
+    }
+    div.custom-tooltip span {
+        visibility: hidden;
+        position: absolute;
+        border-radius: 3px;
+        background-color: #fff;
+        color: #000;
+        text-align: center;
+        max-width: 200px;
+        padding: 5px 10px;
+        margin-left: -220px;
+        cursor: default;
+    }
+    div.custom-tooltip:hover span{
+        visibility: visible;
+    }
+    div.custom-tooltip:hover span:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+        bottom: -20px;
+        left: -10px;
+        margin: 0 50%;
+    }
+    #controls {
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        padding-bottom: 3px;
+    }
+    .ctrl {
+        padding: 8px 5px;
+        width: 90px;
+        text-align: center;
+        background: rgba(200, 200, 200, 0.8);
+        display: inline-block;
+        cursor: pointer;
+    }
+    .ctrl:hover {
+        background: rgba(200, 200, 200, 1);
+    }
+    .ctrl-inactive {
+        padding: 8px 5px;
+        width: 90px;
+        text-align: center;
+        background: rgba(200, 200, 200, 0.8);
+        display: inline-block;
+		color: #C0B6B7
+    }
+
+    </style>
+</head>
+<body>
+
+<div id="panorama">
+    <div id="controls">
+        <div class="ctrl-inactive" id="scene-prev">&#9664; Back</div>
+        <div class="ctrl" id="scene-next">Next &#9654;</div>
+    </div>
+</div>
+<script>
+var scenelist = ["istudio", "posters", "bossone" ];
+var currentscene = 0;
+var maxscene = scenelist.length - 1;
+	
+viewer = pannellum.viewer('panorama', {
+	    "default": {
+        "firstScene": "istudio",
+        "autoLoad": true,
+        "sceneFadeDuration": 1000
+    },
+
+    "scenes": {
+        "istudio": {
+    "title": "Innovation Studio",
+    "type": "equirectangular",
+//    "panorama": "~/media/C64810D662614FB9A870A7CF64834728.ashx",
+      "panorama": "istudio-sm.jpg",
+      "maxPitch": 27,
+      "minPitch": -30,
+      "maxYaw": 39,
+      "minYaw": -39,
+      "pitch": 0,
+      "yaw":  0,
+      "hfov": 40,
+      "minHfov": 10,
+      "maxHfov": 30,
+      "haov": 80,
+      "vaov": 60,
+      "autoRotate": -0.5,
+    /*
+     * Uncomment the next line to print the coordinates of mouse clicks
+     * to the browser's developer console, which makes it much easier
+     * to figure out where to place hot spots. Always remove it when
+     * finished, though.
+     */
+//    "hotSpotDebug": true,
+    "hotSpots": [
+		{
+            "pitch": 13.63,
+            "yaw": -15.83,
+              "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "3d-printers"
+
+        },
+        {
+            "pitch": 1.8,
+            "yaw": -12.25,
+              "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Students work together on projects"
+
+        },
+        {
+            "pitch": -9.97,
+            "yaw": 22.63,
+              "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Instructors workstation"
+
+        },
+        {
+            "pitch": 14.01,
+            "yaw": 28.5,
+            "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Work bench for projects"
+        }
+    ]
+},
+
+        "posters": {
+    "title": "Senior Design Posters",
+    "type": "equirectangular",
+//    "panorama": "~/media/502EEA7F5D6240C78B8C8058E92FCA1B.ashx",
+    "panorama": "sr-design.jpg",
+      "maxPitch": 27,
+      "minPitch": -30,
+      "maxYaw": 39,
+      "minYaw": -39,
+      "pitch": 0,
+      "yaw":  0,
+      "hfov": 40,
+      "minHfov": 10,
+      "maxHfov": 30,
+      "haov": 80,
+      "vaov": 60,
+      "autoRotate": -0.5,
+    /*
+     * Uncomment the next line to print the coordinates of mouse clicks
+     * to the browser's developer console, which makes it much easier
+     * to figure out where to place hot spots. Always remove it when
+     * finished, though.
+     */
+//    "hotSpotDebug": true,
+    "hotSpots": [
+        {
+            "pitch": -12.7,
+            "yaw": 0.19,
+              "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Posters used to explain senior design project"
+
+        },
+        {
+            "pitch": 8.9,
+            "yaw": -16.4,
+            "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Faculty members evaluate design project"
+        }
+    ]
+},
+
+        "bossone": {
+    "title": "Bossone Research Enterprise Center",
+    "type": "equirectangular",
+//    "panorama": "~/media/B6A1874DFE674522B313D53EA3DA9641.ashx",
+    "panorama": "bossone.jpg",
+      "maxPitch": 27,
+      "minPitch": -30,
+      "maxYaw": 39,
+      "minYaw": -39,
+      "pitch": 0,
+      "yaw":  0,
+      "hfov": 40,
+      "minHfov": 10,
+      "maxHfov": 30,
+      "haov": 80,
+      "vaov": 60,
+      "autoRotate": -0.5,
+    /*
+     * Uncomment the next line to print the coordinates of mouse clicks
+     * to the browser's developer console, which makes it much easier
+     * to figure out where to place hot spots. Always remove it when
+     * finished, though.
+     */
+//   "hotSpotDebug": true,
+    "hotSpots": [
+        {
+            "pitch": 11.2,
+            "yaw": -20.03,
+              "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Students can eat lunch and study"
+
+        },
+        {
+            "pitch": -4.0,
+            "yaw": 15.9,
+            "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": "Display case has cool stuff"
+        }
+    ]
+}
+	}
+});
+
+// Hot spot creation function
+function hotspot(hotSpotDiv, args) {
+    hotSpotDiv.classList.add('custom-tooltip');
+    var span = document.createElement('span');
+    span.innerHTML = args;
+    hotSpotDiv.appendChild(span);
+    span.style.width = span.scrollWidth - 20 + 'px';
+    span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+    span.style.marginTop = -span.scrollHeight - 12 + 'px';
+}
+
+// Navigation controls to change scenes
+document.getElementById('scene-next').addEventListener('click', function(e) {
+	if (currentscene < maxscene) {
+		if (currentscene == 0) {
+			document.getElementById('scene-prev').classList.remove("ctrl-inactive");
+			document.getElementById('scene-prev').classList.add("ctrl");
+		}
+		currentscene++;
+		viewer.loadScene(scenelist[currentscene]);
+		if (currentscene == maxscene) {
+			document.getElementById('scene-next').classList.add("ctrl-inactive");
+			document.getElementById('scene-next').classList.remove("ctrl");
+		}
+	}
+	
+});
+document.getElementById('scene-prev').addEventListener('click', function(e) {
+	if (currentscene > 0) {
+		if (currentscene == maxscene) {
+			document.getElementById('scene-next').classList.remove("ctrl-inactive");
+			document.getElementById('scene-next').classList.add("ctrl");
+		}
+		currentscene = currentscene - 1;
+		viewer.loadScene(scenelist[currentscene]);
+		if (currentscene == 0) {
+			document.getElementById('scene-prev').classList.add("ctrl-inactive");
+			document.getElementById('scene-prev').classList.remove("ctrl");
+		}
+	}
+	
+});
+
+</script>
+
+</body>
+</html>
